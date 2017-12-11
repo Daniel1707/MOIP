@@ -6,6 +6,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import moip.models.OrderJson;
+import moip.utilities.ExternalData;
 import moip.utilities.Requests;
 import moip.utilities.Suports;
 
@@ -26,6 +27,10 @@ public class Order {
 
 	@Then("^an order will be created$")
 	public void an_order_will_be_created() throws Throwable {
-		Assert.assertNotNull(Suports.keyValueReturn(response, "ownId"));
+
+		String OrderID = Suports.keyValueReturn(response, "id");
+		Assert.assertNotNull(OrderID);
+
+		ExternalData.WriteDataOrder(OrderID);
 	}
 }

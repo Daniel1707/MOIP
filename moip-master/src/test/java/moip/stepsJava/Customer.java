@@ -14,16 +14,17 @@ public class Customer {
 
 	public static String idClient;
 	public static String response;
+	String jsonRequestCustomer;
+	String responseGet;
 
 	@Given("^i want to create a new client$")
 	public void i_want_to_create_a_new_client() throws Throwable {
+		jsonRequestCustomer = CustomerJson.jsonObjectCustomer();
 	}
 
 	@When("^i fill all the required fields$")
 	public void i_fill_all_the_required_fields() throws Throwable {
-		String jsonRequestCustomer = CustomerJson.jsonObjectCustomer();
 		response = Requests.post("/v2/customers", jsonRequestCustomer);
-
 	}
 
 	@Then("^the client will be created$")
@@ -42,18 +43,22 @@ public class Customer {
 
 	@Given("^i want to see a client that i created$")
 	public void i_want_to_see_a_client_that_i_created() throws Throwable {
+
 	}
 
 	@When("^i call the service to show the clients$")
 	public void i_fill_te_client_s_number() throws Throwable {
-		String response = Requests.get("/v2/customers/" + idClient);
-		Assert.assertNotNull(Suports.keyValueReturn(response, "id"));
-		String nome = Suports.keyValueReturn(response, "fullname");
-		Assert.assertEquals("Daniel dos Santos", nome);
+		responseGet = Requests.get("/v2/customers/" + idClient);
 	}
 
 	@Then("^the client will be show$")
 	public void the_client_will_be_show() throws Throwable {
+		Assert.assertNotNull(Suports.keyValueReturn(responseGet, "id"));
 
+		String nome = Suports.keyValueReturn(responseGet, "fullname");
+		Assert.assertEquals("Daniel dos Santos", nome);
+
+		String id = Suports.keyValueReturn(responseGet, "id");
+		Assert.assertEquals(idClient, id);
 	}
 }
