@@ -1,6 +1,5 @@
 package moip.stepsJava;
 
-import org.json.JSONObject;
 import org.junit.Assert;
 
 import cucumber.api.java.en.Given;
@@ -41,9 +40,15 @@ public class Customer {
 	public void i_fill_te_client_s_number() throws Throwable {
 
 		String response = Requests.get("/v2/customers/" + idClient);
-
+		
 		System.out.println(Suports.keyValueReturn(response, "id"));
 		Assert.assertNotNull(Suports.keyValueReturn(response, "id"));
+		
+		String nome = Suports.keyValueReturn(response, "fullname");
+		
+		System.out.println(nome);
+		
+		Assert.assertEquals("Daniel dos Santos", nome);
 	}
 
 	@Then("^the client will be show$")

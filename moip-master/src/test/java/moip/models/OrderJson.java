@@ -16,26 +16,31 @@ public class OrderJson {
 
 		try {
 
-			JsonObject custumerObject = Json.createObjectBuilder().add("ownId", Suports.randomIdCustomer())
+			JsonObject orderObject = Json.createObjectBuilder().add("ownId", Suports.randomIdCustomer())
 
-					.add("ownid", Suports.randomIdCustomer())
 					.add("amount", Json.createObjectBuilder().add("currency", "BRL")
 							.add("subtotals", Json.createObjectBuilder().add("shipping", "1000")).build())
 
-					.add("items", Json.createObjectBuilder().add("product", "Description").add("category", "CLOTHING")
-							.add("quantity", "1").add("detail", "detail").add("price", "1000").build())
+					.add("items",
+							Json.createArrayBuilder()
+									.add(Json.createObjectBuilder().add("product", "Description")
+											.add("category", "CLOTHING").add("quantity", "1").add("detail", "detail")
+											.add("price", "1000").build())
+									.build())
 
 					.add("customer", Json.createObjectBuilder().add("ownId", "CUS").build())
-					.add("receivers", Json.createObjectBuilder().add("type", "SECONDARY").add("feePayor", "true"))
-					.add("moipAccount", Json.createObjectBuilder().add("id", "MPA-E3C8493A06AE").build())
-					.add("moipAccount", Json.createObjectBuilder().add("amount",
-							Json.createObjectBuilder().add("percentual", "30").build()).build())
 
-					.build();
+					//.add("receivers",
+					//		Json.createArrayBuilder()
+					//				.add(Json.createObjectBuilder().add("type", "SECONDARY").add("feePayor", "true"))
+					//				.add("moipAccount", Json.createObjectBuilder().add("id", "MPA-E3C8493A06AE"))
+					//				.add("amount", Json.createObjectBuilder().add("id", "MPA-E3C8493A06AE").build())
+
+									.build();
 
 			StringWriter stringWriter = new StringWriter();
 			JsonWriter writer = Json.createWriter(stringWriter);
-			writer.write(custumerObject);
+			writer.write(orderObject);
 			writer.close();
 			jsonResponse = stringWriter.getBuffer().toString();
 
