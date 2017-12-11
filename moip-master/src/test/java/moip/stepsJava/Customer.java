@@ -6,12 +6,14 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import moip.models.CustomerJson;
+import moip.utilities.ExternalData;
 import moip.utilities.Requests;
 import moip.utilities.Suports;
 
 public class Customer {
 
 	public static String idClient;
+	public static String response;
 
 	@Given("^i want to create a new client$")
 	public void i_want_to_create_a_new_client() throws Throwable {
@@ -20,16 +22,22 @@ public class Customer {
 	@When("^i fill all the required fields$")
 	public void i_fill_all_the_required_fields() throws Throwable {
 		String jsonRequestCustomer = CustomerJson.jsonObjectCustomer();
-		String response = Requests.post("/v2/customers", jsonRequestCustomer);
+		response = Requests.post("/v2/customers", jsonRequestCustomer);
 
-		System.out.println(Suports.keyValueReturn(response, "id"));
-		Assert.assertNotNull(Suports.keyValueReturn(response, "id"));
-
-		idClient = Suports.keyValueReturn(response, "id");
 	}
 
 	@Then("^the client will be created$")
 	public void the_client_will_be_created() throws Throwable {
+
+		Assert.assertNotNull(Suports.keyValueReturn(response, "id"));
+		idClient = Suports.keyValueReturn(response, "id");
+		
+		String id = Suports.keyValueReturn(response, "id");
+		String name = Suports.keyValueReturn(response, "fullname");
+		String email = Suports.keyValueReturn(response, "email");
+
+		// Write id, name and email to use in another test case
+		ExternalData.WriteDataCustomer(id, name, email);
 	}
 
 	@Given("^i want to see a client that i created$")
@@ -40,14 +48,14 @@ public class Customer {
 	public void i_fill_te_client_s_number() throws Throwable {
 
 		String response = Requests.get("/v2/customers/" + idClient);
-		
+
 		System.out.println(Suports.keyValueReturn(response, "id"));
 		Assert.assertNotNull(Suports.keyValueReturn(response, "id"));
-		
+
 		String nome = Suports.keyValueReturn(response, "fullname");
-		
+
 		System.out.println(nome);
-		
+
 		Assert.assertEquals("Daniel dos Santos", nome);
 	}
 

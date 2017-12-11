@@ -12,8 +12,12 @@ public class OrderJson {
 
 	static String jsonResponse;
 
-	public static String create() {
-
+	public static String createOrderAsExistingUser() {
+		
+		String userID = "CUS-936SYBE7W2V7";
+		String userName = "Daniel dos Santos";
+		String userEmail = "daniel@yahoo.com.br";
+		
 		try {
 
 			JsonObject orderObject = Json.createObjectBuilder().add("ownId", Suports.randomIdCustomer())
@@ -28,15 +32,13 @@ public class OrderJson {
 											.add("price", "1000").build())
 									.build())
 
-					.add("customer", Json.createObjectBuilder().add("ownId", "CUS").build())
+					.add("customer",
+							Json.createObjectBuilder().add("ownId", userID)
+									.add("fullname", userName).add("email", userEmail).build())
+					
+					.build();
 
-					//.add("receivers",
-					//		Json.createArrayBuilder()
-					//				.add(Json.createObjectBuilder().add("type", "SECONDARY").add("feePayor", "true"))
-					//				.add("moipAccount", Json.createObjectBuilder().add("id", "MPA-E3C8493A06AE"))
-					//				.add("amount", Json.createObjectBuilder().add("id", "MPA-E3C8493A06AE").build())
-
-									.build();
+			System.out.println("Object sent: " + orderObject);
 
 			StringWriter stringWriter = new StringWriter();
 			JsonWriter writer = Json.createWriter(stringWriter);
@@ -44,10 +46,8 @@ public class OrderJson {
 			writer.close();
 			jsonResponse = stringWriter.getBuffer().toString();
 
-			System.out.println("ORDER JSON: " + jsonResponse);
-
 		} catch (Exception e) {
-			System.out.println("Failed in send the order.");
+			System.out.println("Failed in sent the order.");
 		}
 
 		return jsonResponse;

@@ -12,7 +12,7 @@ import moip.utilities.Suports;
 public class Order {
 	@Given("^i want an order$")
 	public void i_want_an_order() throws Throwable {
-		String jsonRequestOrder = OrderJson.create();
+		String jsonRequestOrder = OrderJson.createOrderAsExistingUser();
 		String response = Requests.post("/v2/orders", jsonRequestOrder);
 
 		Assert.assertNotNull(Suports.keyValueReturn(response, "ownId"));
