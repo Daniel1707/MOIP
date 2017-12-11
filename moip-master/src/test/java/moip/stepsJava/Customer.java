@@ -31,7 +31,7 @@ public class Customer {
 
 		Assert.assertNotNull(Suports.keyValueReturn(response, "id"));
 		idClient = Suports.keyValueReturn(response, "id");
-		
+
 		String id = Suports.keyValueReturn(response, "id");
 		String name = Suports.keyValueReturn(response, "fullname");
 		String email = Suports.keyValueReturn(response, "email");
@@ -46,16 +46,9 @@ public class Customer {
 
 	@When("^i call the service to show the clients$")
 	public void i_fill_te_client_s_number() throws Throwable {
-
 		String response = Requests.get("/v2/customers/" + idClient);
-
-		System.out.println(Suports.keyValueReturn(response, "id"));
 		Assert.assertNotNull(Suports.keyValueReturn(response, "id"));
-
 		String nome = Suports.keyValueReturn(response, "fullname");
-
-		System.out.println(nome);
-
 		Assert.assertEquals("Daniel dos Santos", nome);
 	}
 

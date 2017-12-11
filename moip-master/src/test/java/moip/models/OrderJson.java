@@ -1,11 +1,15 @@
 package moip.models;
 
+import java.io.IOException;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonWriter;
 
+import moip.utilities.ExternalData;
 import moip.utilities.Suports;
 
 public class OrderJson {
@@ -13,11 +17,27 @@ public class OrderJson {
 	static String jsonResponse;
 
 	public static String createOrderAsExistingUser() {
-		
-		String userID = "CUS-936SYBE7W2V7";
-		String userName = "Daniel dos Santos";
-		String userEmail = "daniel@yahoo.com.br";
-		
+
+		// TODO - Create a way to read a txt with the values below
+
+		Map<String, String> dataMap = new HashMap<String, String>();
+
+		try {
+			dataMap = ExternalData.readDataCustomer();
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
+
+		String userID = dataMap.get("ID");
+		String userName = dataMap.get("NAME");
+		String userEmail = dataMap.get("EMAIL");
+
+		try {
+			ExternalData.readDataCustomer();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
 		try {
 
 			JsonObject orderObject = Json.createObjectBuilder().add("ownId", Suports.randomIdCustomer())
@@ -32,10 +52,9 @@ public class OrderJson {
 											.add("price", "1000").build())
 									.build())
 
-					.add("customer",
-							Json.createObjectBuilder().add("ownId", userID)
-									.add("fullname", userName).add("email", userEmail).build())
-					
+					.add("customer", Json.createObjectBuilder().add("ownId", userID).add("fullname", userName)
+							.add("email", userEmail).build())
+
 					.build();
 
 			System.out.println("Object sent: " + orderObject);

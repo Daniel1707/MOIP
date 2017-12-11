@@ -26,10 +26,7 @@ public class Requests {
 				"Basic MllVRDdEUUhCODVJSDhIRDY3R1dEUVpTRU5VSlVWQU46RVlWVUVKWVU3TVhRTVlOTzdQOFNVTEEzSEVRWlhOM01RWUJFVUJUUQ==");
 
 		HttpResponse response = httpClient.execute(request);
-		System.out.println(response.getStatusLine().getStatusCode());
 		String responseBody = EntityUtils.toString(response.getEntity());
-		
-		System.out.println("RESPOSTA DO SISTEMA: " + responseBody);
 
 		return responseBody;
 	}
