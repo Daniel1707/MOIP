@@ -55,9 +55,6 @@ public class Customer {
 	public void the_client_will_be_show() throws Throwable {
 		Assert.assertNotNull(Suports.keyValueReturn(responseGet, "id"));
 
-		String nome = Suports.keyValueReturn(responseGet, "fullname");
-		Assert.assertEquals("Daniel dos Santos", nome);
-
 		String id = Suports.keyValueReturn(responseGet, "id");
 		Assert.assertEquals(idClient, id);
 	}

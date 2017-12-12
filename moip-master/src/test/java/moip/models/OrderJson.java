@@ -11,6 +11,7 @@ import javax.json.JsonWriter;
 
 import moip.utilities.ExternalData;
 import moip.utilities.Suports;
+import moip.utilities.ExternalData.TipoArquivo;
 
 public class OrderJson {
 
@@ -18,12 +19,10 @@ public class OrderJson {
 
 	public static String createOrderAsExistingUser() {
 
-		// TODO - Create a way to read a txt with the values below
-
 		Map<String, String> dataMap = new HashMap<String, String>();
 
 		try {
-			dataMap = ExternalData.readDataCustomer();
+			dataMap = ExternalData.read(TipoArquivo.CUSTOMER);
 		} catch (IOException e2) {
 			e2.printStackTrace();
 		}
@@ -31,12 +30,6 @@ public class OrderJson {
 		String userID = dataMap.get("ID");
 		String userName = dataMap.get("NAME");
 		String userEmail = dataMap.get("EMAIL");
-
-		try {
-			ExternalData.readDataCustomer();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
 
 		try {
 

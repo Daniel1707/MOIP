@@ -11,6 +11,7 @@ public class ExternalData {
 
 	private static final String FILECUSTOMER = "C:\\MOIP\\data.txt";
 	private static final String FILEORDER = "C:\\MOIP\\dataOrder.txt";
+	private static final String FILEPAYMENT = "C:\\MOIP\\dataPayment.txt";
 
 	public static void WriteDataCustomer(String id, String name, String email) {
 
@@ -25,7 +26,7 @@ public class ExternalData {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void WriteDataOrder(String orderId) {
 
 		try {
@@ -37,10 +38,32 @@ public class ExternalData {
 			e.printStackTrace();
 		}
 	}
-	
-	public static Map<String, String> readDataOrder() throws IOException {
 
-		BufferedReader br = new BufferedReader(new FileReader(FILEORDER));
+	public static void WriteDataPayment(String paymentId) {
+
+		try {
+
+			PrintWriter writer = new PrintWriter(FILEPAYMENT, "UTF-8");
+			writer.println("PaymentID: " + paymentId);
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static Map<String, String> read(TipoArquivo arquivo) throws IOException {
+
+		String enderecoArquivo = null;
+
+		if (arquivo == TipoArquivo.CUSTOMER) {
+			enderecoArquivo = FILECUSTOMER;
+		} else if (arquivo == TipoArquivo.ORDER) {
+			enderecoArquivo = FILEORDER;
+		} else if (arquivo == TipoArquivo.PAYMENT) {
+			enderecoArquivo = FILEPAYMENT;
+		}
+
+		BufferedReader br = new BufferedReader(new FileReader(enderecoArquivo));
 		Map<String, String> dataMap = new HashMap<String, String>();
 
 		try {
@@ -66,31 +89,8 @@ public class ExternalData {
 		return dataMap;
 	}
 
-	public static Map<String, String> readDataCustomer() throws IOException {
-
-		BufferedReader br = new BufferedReader(new FileReader(FILECUSTOMER));
-		Map<String, String> dataMap = new HashMap<String, String>();
-
-		try {
-
-			StringBuilder sb = new StringBuilder();
-			String line = br.readLine();
-
-			while (line != null) {
-
-				String key = line.substring(0, line.indexOf(":")).trim();
-				String value = line.substring(line.indexOf(":"), line.length()).replaceAll(":", "").trim();
-
-				dataMap.put(key, value);
-
-				sb.append(line);
-				sb.append(System.lineSeparator());
-				line = br.readLine();
-			}
-		} finally {
-			br.close();
-		}
-
-		return dataMap;
+	public enum TipoArquivo {
+		CUSTOMER, ORDER, PAYMENT;
 	}
+
 }

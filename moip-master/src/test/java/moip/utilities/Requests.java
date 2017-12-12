@@ -44,6 +44,9 @@ public class Requests {
 		HttpResponse response = httpClient.execute(request);
 		System.out.println(response.getStatusLine().getStatusCode());
 		String responseBody = EntityUtils.toString(response.getEntity());
+		
+		System.out.println("-----RETORNO GET " + responseBody);
+		
 		return responseBody;
 	}
 }
