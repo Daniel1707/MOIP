@@ -29,7 +29,9 @@ public class Requests {
 		String responseBody = EntityUtils.toString(response.getEntity());
 
 		// See if the code returned starts with number 5
-		findErrorUnexpected(response.getStatusLine().toString(), endPoint, "");
+		findErrorUnexpected(response.getStatusLine().toString(), endPoint, request.toString());
+
+		System.out.println("---------------------" + response.getStatusLine().toString() + "---" + responseBody);
 
 		return responseBody;
 	}

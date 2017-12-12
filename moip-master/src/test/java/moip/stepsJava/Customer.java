@@ -13,10 +13,14 @@ import moip.utilities.Suports;
 public class Customer {
 
 	public static String idClient;
-	public static String response;
+	public static String responseCreateCustomer;
 	String jsonRequestCustomer;
 	String responseGet;
 
+	String responseAssociateCreditCard;
+	String jsonRequestCreditCard;
+
+	// Create client
 	@Given("^i want to create a new client$")
 	public void i_want_to_create_a_new_client() throws Throwable {
 		jsonRequestCustomer = CustomerJson.jsonObjectCustomer();
@@ -24,29 +28,30 @@ public class Customer {
 
 	@When("^i fill all the required fields$")
 	public void i_fill_all_the_required_fields() throws Throwable {
-		response = Requests.post("/v2/customers", jsonRequestCustomer);
+		responseCreateCustomer = Requests.post("/v2/customers", jsonRequestCustomer);
 	}
 
 	@Then("^the client will be created$")
 	public void the_client_will_be_created() throws Throwable {
 
-		Assert.assertNotNull(Suports.keyValueReturn(response, "id"));
-		idClient = Suports.keyValueReturn(response, "id");
+		Assert.assertNotNull(Suports.keyValueReturn(responseCreateCustomer, "id"));
+		idClient = Suports.keyValueReturn(responseCreateCustomer, "id");
 
-		String id = Suports.keyValueReturn(response, "id");
-		String name = Suports.keyValueReturn(response, "fullname");
-		String email = Suports.keyValueReturn(response, "email");
+		String id = Suports.keyValueReturn(responseCreateCustomer, "id");
+		String name = Suports.keyValueReturn(responseCreateCustomer, "fullname");
+		String email = Suports.keyValueReturn(responseCreateCustomer, "email");
 
 		// Write id, name and email to use in another test case
 		ExternalData.WriteDataCustomer(id, name, email);
 	}
 
+	// Show client
 	@Given("^i want to see a client that i created$")
 	public void i_want_to_see_a_client_that_i_created() throws Throwable {
 
 	}
 
-	@When("^i call the service to show the clients$")
+	@When("^i call the service to show the client$")
 	public void i_fill_te_client_s_number() throws Throwable {
 		responseGet = Requests.get("/v2/customers/" + idClient);
 	}
@@ -57,5 +62,21 @@ public class Customer {
 
 		String id = Suports.keyValueReturn(responseGet, "id");
 		Assert.assertEquals(idClient, id);
+	}
+
+	// Associate credit Card
+	@Given("^i want to add a credit card to client that i created$")
+	public void i_want_to_add_a_credit_card_to_client_that_i_created() throws Throwable {
+		jsonRequestCreditCard = CustomerJson.jsonObjectCreditCard();
+	}
+
+	@When("^i call the service client filling all the required fields$")
+	public void i_call_the_service_client_filling_all_the_required_fields() throws Throwable {
+		responseAssociateCreditCard = Requests.post("/v2/customers/" + idClient + "/fundi", jsonRequestCreditCard);
+	}
+
+	@Then("^the credit card will be associated to the client$")
+	public void the_credit_card_will_be_associated_to_the_client() throws Throwable {
+		Assert.assertNotNull(Suports.keyValueReturn(responseAssociateCreditCard, "id"));
 	}
 }

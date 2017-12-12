@@ -1,11 +1,12 @@
 package moip.models;
 
-import moip.utilities.Suports;
+import java.io.StringWriter;
 
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonWriter;
-import java.io.StringWriter;
+
+import moip.utilities.Suports;
 
 public class CustomerJson {
 
@@ -35,9 +36,46 @@ public class CustomerJson {
 			writer.write(custumerObject);
 			writer.close();
 			jsonResponse = stringWriter.getBuffer().toString();
-			
+
 		} catch (Exception e) {
 			System.out.println("Failed in send the customer.");
+		}
+
+		return jsonResponse;
+	}
+
+	public static String jsonObjectCreditCard() {
+
+		String jsonResponse = null;
+
+		try {
+
+			JsonObject custumerObject = Json.createObjectBuilder().add("method", "CREDIT_CARD")
+					.add("creditCard", Json.createObjectBuilder().add("expirationMonth", "05")
+							.add("expirationYear", "22").add("number", "5555666677778884").add("cvc", "123").add(
+									"holder",
+									Json.createObjectBuilder().add("fullname", "teste").add("birthdate", "123")
+											.add("taxDocument",
+													Json.createObjectBuilder().add("CPF", "123").add("number", "123")
+															.build())
+											.add("phone",
+													Json.createObjectBuilder().add("countryCode", "123")
+															.add("areaCode", "123").add("number", "123").build())
+											.build())
+							.build())
+
+					.build();
+
+			StringWriter stringWriter = new StringWriter();
+			JsonWriter writer = Json.createWriter(stringWriter);
+			writer.write(custumerObject);
+			writer.close();
+			jsonResponse = stringWriter.getBuffer().toString();
+
+			System.out.println("________--------------------CREDIT CARD - " + jsonResponse);
+
+		} catch (Exception e) {
+			System.out.println("Failed in send the credit card.");
 		}
 
 		return jsonResponse;
