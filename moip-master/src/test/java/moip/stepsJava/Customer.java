@@ -72,11 +72,12 @@ public class Customer {
 
 	@When("^i call the service client filling all the required fields$")
 	public void i_call_the_service_client_filling_all_the_required_fields() throws Throwable {
-		responseAssociateCreditCard = Requests.post("/v2/customers/" + idClient + "/fundi", jsonRequestCreditCard);
+		responseAssociateCreditCard = Requests.post("/v2/customers/" + idClient + "/fundinginstruments",
+				jsonRequestCreditCard);
 	}
 
 	@Then("^the credit card will be associated to the client$")
 	public void the_credit_card_will_be_associated_to_the_client() throws Throwable {
-		Assert.assertNotNull(Suports.keyValueReturn(responseAssociateCreditCard, "id"));
+		Assert.assertNotNull(Suports.keyValueReturn(responseAssociateCreditCard, "id", "creditCard"));
 	}
 }

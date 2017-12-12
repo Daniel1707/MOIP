@@ -54,10 +54,10 @@ public class CustomerJson {
 					.add("creditCard", Json.createObjectBuilder().add("expirationMonth", "05")
 							.add("expirationYear", "22").add("number", "5555666677778884").add("cvc", "123").add(
 									"holder",
-									Json.createObjectBuilder().add("fullname", "teste").add("birthdate", "123")
+									Json.createObjectBuilder().add("fullname", "teste").add("birthdate", "1990-10-22")
 											.add("taxDocument",
-													Json.createObjectBuilder().add("CPF", "123").add("number", "123")
-															.build())
+													Json.createObjectBuilder().add("type", "CPF")
+															.add("number", "33333333333").build())
 											.add("phone",
 													Json.createObjectBuilder().add("countryCode", "123")
 															.add("areaCode", "123").add("number", "123").build())
@@ -71,8 +71,6 @@ public class CustomerJson {
 			writer.write(custumerObject);
 			writer.close();
 			jsonResponse = stringWriter.getBuffer().toString();
-
-			System.out.println("________--------------------CREDIT CARD - " + jsonResponse);
 
 		} catch (Exception e) {
 			System.out.println("Failed in send the credit card.");

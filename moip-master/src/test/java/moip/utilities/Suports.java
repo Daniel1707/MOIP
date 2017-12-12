@@ -19,7 +19,7 @@ public class Suports {
 		return uuid;
 
 	}
-	
+
 	public static String keyValueReturn(String jsonResponse, String keyValue) {
 
 		JSONObject jsonObj = new JSONObject(jsonResponse);
@@ -27,5 +27,14 @@ public class Suports {
 		return value;
 
 	}
-	
+
+	public static String keyValueReturn(String jsonResponse, String keyValue, String node) {
+
+		JSONObject jsonObj = new JSONObject(jsonResponse);
+		JSONObject findNode = (JSONObject) jsonObj.get(node);
+
+		String value = findNode.getString(keyValue);
+		return value;
+	}
+
 }

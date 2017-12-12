@@ -2,13 +2,13 @@ MOIP
 
 Project MOIP
 
-Description: The project was designed using Java, Cucumber and Maven. The purpose of the project is test the following APIs from MOIP:
+The purpose of the project is test the following APIs from MOIP:
 
-    Clientes;
-    Pedidos;
-    Pagamentos;
+- Clientes;
+- Pedidos;
+- Pagamentos;
 
-Number of scenarios: 6
+Number of scenarios: 7
 
 How to execute?
 
