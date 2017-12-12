@@ -35,7 +35,7 @@ public class CustomerJson {
 			writer.write(custumerObject);
 			writer.close();
 			jsonResponse = stringWriter.getBuffer().toString();
-
+			
 		} catch (Exception e) {
 			System.out.println("Failed in send the customer.");
 		}

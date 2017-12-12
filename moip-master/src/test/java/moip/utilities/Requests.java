@@ -28,6 +28,9 @@ public class Requests {
 		HttpResponse response = httpClient.execute(request);
 		String responseBody = EntityUtils.toString(response.getEntity());
 
+		// See if the code returned starts with number 5
+		findErrorUnexpected(response.getStatusLine().toString(), endPoint, "");
+
 		return responseBody;
 	}
 
@@ -44,9 +47,21 @@ public class Requests {
 		HttpResponse response = httpClient.execute(request);
 		System.out.println(response.getStatusLine().getStatusCode());
 		String responseBody = EntityUtils.toString(response.getEntity());
-		
-		System.out.println("-----RETORNO GET " + responseBody);
-		
+
+		// See if the code returned starts with number 5
+		findErrorUnexpected(response.getStatusLine().toString(), endPoint, request.toString());
+
 		return responseBody;
+	}
+
+	private static void findErrorUnexpected(String code, String endpoint, String jSon) {
+		if (code.startsWith("5")) {
+			DataError dataError = new DataError();
+			dataError.setCode(code);
+			dataError.setEndPoint(endpoint);
+			dataError.setjSonSent(jSon);
+
+			Error.write(dataError);
+		}
 	}
 }
